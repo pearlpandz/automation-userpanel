@@ -1,15 +1,16 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
-import './App.css';
 import Login from './components/pages/login.js';
 import Register from './components/pages/register.js';
 import AddRoomsAndDevices from './components/pages/addRoomsAndDevices.js';
 
+import 'primeicons/primeicons.css';
 import 'primereact/resources/themes/nova-light/theme.css';
 import 'primereact/resources/primereact.min.css';
-import 'primeicons/primeicons.css';
+import 'primeflex/primeflex.css';
 
+import './App.css';
 
 function App() {
   return (

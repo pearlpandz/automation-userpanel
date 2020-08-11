@@ -18,17 +18,92 @@ class AddRoomsAndDevices extends Component {
                 {
                     id: 1,
                     name: 'Tube Light',
-                    uniqueId: 'TL0000001X',
+                    uniqueId: 'TL0000001X'
                 },
                 {
                     id: 2,
                     name: 'Fan',
-                    uniqueId: 'TL0000002X',
+                    uniqueId: 'TL0000002X'
                 },
                 {
                     id: 3,
                     name: 'Switch Box',
-                    uniqueId: 'TL0000002X',
+                    uniqueId: 'TL0000002X'
+                },
+                {
+                    id: 4,
+                    name: 'Tube Light',
+                    uniqueId: 'TL0000001X'
+                },
+                {
+                    id: 5,
+                    name: 'Fan',
+                    uniqueId: 'TL0000002X'
+                },
+                {
+                    id: 6,
+                    name: 'Switch Box',
+                    uniqueId: 'TL0000002X'
+                },
+                {
+                    id: 7,
+                    name: 'Tube Light',
+                    uniqueId: 'TL0000001X'
+                },
+                {
+                    id: 8,
+                    name: 'Fan',
+                    uniqueId: 'TL0000002X'
+                },
+                {
+                    id: 9,
+                    name: 'Switch Box',
+                    uniqueId: 'TL0000002X'
+                },
+                {
+                    id: 10,
+                    name: 'Tube Light',
+                    uniqueId: 'TL0000001X'
+                },
+                {
+                    id: 11,
+                    name: 'Fan',
+                    uniqueId: 'TL0000002X'
+                },
+                {
+                    id: 12,
+                    name: 'Switch Box',
+                    uniqueId: 'TL0000002X'
+                },
+                {
+                    id: 13,
+                    name: 'Tube Light',
+                    uniqueId: 'TL0000001X'
+                },
+                {
+                    id: 14,
+                    name: 'Fan',
+                    uniqueId: 'TL0000002X'
+                },
+                {
+                    id: 15,
+                    name: 'Switch Box',
+                    uniqueId: 'TL0000002X'
+                },
+                {
+                    id: 16,
+                    name: 'Tube Light',
+                    uniqueId: 'TL0000001X'
+                },
+                {
+                    id: 17,
+                    name: 'Fan',
+                    uniqueId: 'TL0000002X'
+                },
+                {
+                    id: 18,
+                    name: 'Switch Box',
+                    uniqueId: 'TL0000002X'
                 },
             ]
         }
@@ -65,8 +140,7 @@ class AddRoomsAndDevices extends Component {
                                 <Button label="Add Room" icon="pi pi-plus" onClick={this.showAddRoom} />
                             </div>
                             <div className="page-body">
-                                <MyTable data={rooms} />
-
+                                <MyTable data={rooms} dataKey="id" noOfRows={20} selection={false} expand={false} exportpdf={false}/>
                             </div>
                         </div>
                     }

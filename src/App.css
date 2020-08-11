@@ -36,3 +36,17 @@
     transform: rotate(360deg);
   }
 }
+
+
+
+.pi-sort-alt:before {
+  content: "\e915";
+}
+
+.pi-sort-amount-up-alt:before {
+  content: "\e914";
+}
+
+.pi-sort-amount-down:before {
+  content: "\e913";
+}
