@@ -11,6 +11,8 @@ import axios from 'axios';
 
 import { Growl } from 'primereact/growl';
 
+import { BASEURL } from './../config/config.js';
+
 class AddRoomsAndDevices extends Component {
 
     componentDidMount() {
@@ -18,7 +20,7 @@ class AddRoomsAndDevices extends Component {
     }
 
     getRooms = async () => {
-        const res = await axios.get(`http://localhost:8000/rooms/listAll`, {
+        const res = await axios.get(`${BASEURL}/rooms/listAll`, {
             headers: {
                 authorization: `Bearer ${localStorage.getItem('auth_token')}`
             }
@@ -46,7 +48,7 @@ class AddRoomsAndDevices extends Component {
     }
 
     submitAddRoom = async (values) => {
-        await axios.post(`http://localhost:8000/room/add`, values, {
+        await axios.post(`${BASEURL}/room/add`, values, {
             headers: {
                 authorization: `Bearer ${localStorage.getItem('auth_token')}`
             }

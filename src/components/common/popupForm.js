@@ -9,6 +9,8 @@ import axios from 'axios';
 import './common.css';
 import './popupForm.css';
 
+import { BASEURL } from './../config/config.js';
+
 class PopupForm extends Component {
 
     componentDidMount() {
@@ -16,7 +18,7 @@ class PopupForm extends Component {
     }
 
     getDevices = async () => {
-        const res = await axios.get(`http://localhost:8000/devices/list`, {
+        const res = await axios.get(`${BASEURL}/devices/list`, {
             headers: {
                 authorization: `Bearer ${localStorage.getItem('auth_token')}`
             }
@@ -103,7 +105,7 @@ class PopupForm extends Component {
         this.props.submit({
             name: this.state.values.name,
             boxId: this.state.values.uniqueId,
-            devices: this.state.devicesArr.map(data => ({ "surName": data.name, "refId": data.deviceInfo._id })) 
+            devices: this.state.devicesArr.map(data => ({ "surName": data.name, "refId": data.deviceInfo._id }))
         });
         this.props.close(true);
     };

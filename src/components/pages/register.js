@@ -7,6 +7,8 @@ import axios from 'axios';
 
 import { Growl } from 'primereact/growl';
 
+import { BASEURL } from './../config/config.js';
+
 class Register extends Component {
     constructor(props) {
         super(props);
@@ -122,7 +124,7 @@ class Register extends Component {
         const value = this.state.values;
         value.role = 'user';
 
-        await axios.post(`http://localhost:8000/signup`, value).then(response => {
+        await axios.post(`${BASEURL}/signup`, value).then(response => {
             this.showSuccess(response);
             setTimeout(() => {
                 this.props.history.push('/');

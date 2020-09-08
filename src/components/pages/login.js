@@ -7,6 +7,8 @@ import axios from 'axios';
 
 import { Growl } from 'primereact/growl';
 
+import { BASEURL } from './../config/config.js';
+
 class Login extends Component {
     constructor(props) {
         super(props);
@@ -107,7 +109,7 @@ class Login extends Component {
         const value = this.state.values;
         value.role = 'user';
 
-        await axios.post(`http://localhost:8000/login`, value).then(response => {
+        await axios.post(`${BASEURL}/login`, value).then(response => {
             this.showSuccess(response);
             localStorage.setItem('auth_token', response.data.token);
             localStorage.setItem('user_id', response.data.data._id);
@@ -116,7 +118,8 @@ class Login extends Component {
                 this.props.history.push('/add')
             }, 1500);
         }).catch(error => {
-            this.showError(error.response.data.message);
+            console.log(error.response)
+            // this.showError(error.response.data.message);
         })
     };
 
