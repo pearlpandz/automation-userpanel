@@ -3,27 +3,38 @@ import './../common/common.css';
 import './../pages/register.css';
 import { Link } from 'react-router-dom';
 
+import axios from 'axios';
+
+import { Growl } from 'primereact/growl';
+
 class Register extends Component {
     constructor(props) {
         super(props);
         this.state = {
             values: {
-                fullName: "",
+                name: "",
                 email: "",
                 password: ""
             },
             formValid: false,
             errorCount: null,
             errors: {
-                fullName: "",
+                name: "",
                 email: "",
                 password: ""
             }
         };
+
+        this.showSuccess = this.showSuccess.bind(this);
+        this.showError = this.showError.bind(this);
+    }
+
+    componentDidMount() {
+
     }
 
     validEmailRegex = RegExp(
-        /^([a-zA-Z0-9]+)@([a-zA-Z0-9]+).([a-zA-Z]{2,5})$/
+        /^([a-zA-Z0-9_\-/.]+)@([a-zA-Z0-9_\-/.]+)\.([a-zA-Z]{2,5})$/
     );
     validateForm = errors => {
         let valid = true;
@@ -44,18 +55,22 @@ class Register extends Component {
         let values = this.state.values;
 
         switch (name) {
-            case "fullName":
+            case "name":
                 if (value.length < 5) {
-                    errors.fullName = "Full Name must be 5 characters long!";
+                    errors.name = "Full Name must be 5 characters long!";
+                    values.name = "";
                 } else {
-                    values.fullName = value;
+                    errors.name = "";
+                    values.name = value;
                 }
                 break;
             case "email":
                 if (this.validEmailRegex.test(value)) {
-                    errors.email = "Email is not valid!";
-                } else {
+                    errors.email = "";
                     values.email = value;
+                } else {
+                    errors.email = "Email is not valid!";
+                    values.email = "";
                 }
                 break;
             case "mobile":
@@ -64,7 +79,9 @@ class Register extends Component {
             case "password":
                 if (value.length < 8) {
                     errors.password = "Password must be 8 characters long!";
+                    values.password = "";
                 } else {
+                    errors.password = "";
                     values.password = value;
                 }
                 break;
@@ -82,10 +99,37 @@ class Register extends Component {
         });
     };
 
-    handleSubmit = event => {
+    showSuccess = (res) => {
+        this.growl.show({
+            severity: 'success',
+            summary: 'Success Message',
+            detail: 'Successfully Registered!',
+            life: 3000
+        });
+    }
+
+    showError = (res) => {
+        this.growl.show({
+            severity: 'error',
+            summary: 'Error Message',
+            detail: res.data.message,
+            life: 3000
+        });
+    }
+
+    handleSubmit = async (event) => {
         event.preventDefault();
-        // submitted values
-        // console.log(this.state.values);
+        const value = this.state.values;
+        value.role = 'user';
+
+        await axios.post(`http://localhost:8000/signup`, value).then(response => {
+            this.showSuccess(response);
+            setTimeout(() => {
+                this.props.history.push('/');
+            }, 1000);
+        }).catch(error => {
+            this.showError(error.response);
+        })
     };
 
     render() {
@@ -93,21 +137,22 @@ class Register extends Component {
         return (
             <div className="wrapper flex-box flex-50-50">
                 <div className="form-wrapper">
+                    <Growl ref={(el) => this.growl = el} />
                     <h2 className="page-title">Sign up <span>Sign up to try our amazing services</span></h2>
                     <form onSubmit={this.handleSubmit} noValidate>
-                        <div className="fullName">
-                            <label htmlFor="fullName">Name</label>
+                        <div className="name p-col-12 form-group">
+                            <label htmlFor="name">Name</label>
                             <input
                                 type="text"
-                                name="fullName"
+                                name="name"
                                 onChange={this.handleChange}
                                 noValidate
                             />
-                            {errors.fullName.length > 0 && (
-                                <span className="error">{errors.fullName}</span>
+                            {errors.name.length > 0 && (
+                                <span className="error">{errors.name}</span>
                             )}
                         </div>
-                        <div className="email">
+                        <div className="email p-col-12 form-group">
                             <label htmlFor="email">Email</label>
                             <input
                                 type="email"
@@ -119,7 +164,7 @@ class Register extends Component {
                                 <span className="error">{errors.email}</span>
                             )}
                         </div>
-                        <div className="mobile">
+                        <div className="mobile p-col-12 form-group">
                             <label htmlFor="mobile">Mobile</label>
                             <input
                                 type="number"
@@ -128,8 +173,8 @@ class Register extends Component {
                                 noValidate
                             />
                         </div>
-                        <div className="password">
-                            <label htmlFor="password">Password</label>
+                        <div className="password p-col-12 form-group">
+                            <label htmlFor="password">Password <small>(must be eight characters in length.)</small></label>
                             <input
                                 type="password"
                                 name="password"
@@ -140,11 +185,8 @@ class Register extends Component {
                                 <span className="error">{errors.password}</span>
                             )}
                         </div>
-                        <div className="info">
-                            <small>Password must be eight characters in length.</small>
-                        </div>
-                        <div className="submit">
-                            <button disabled={!formValid}>Create</button>
+                        <div className="submit p-col-12">
+                            <button className="mybtn" disabled={!formValid}>Create</button>
                         </div>
                     </form>
                     <h2 className="page-title text-center"><span><Link to="/">Already have an account? Login here!</Link></span></h2>

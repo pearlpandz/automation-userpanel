@@ -1,25 +1,28 @@
 import React from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { Switch, Route, BrowserRouter as Router } from 'react-router-dom';
 
 import Login from './components/pages/login.js';
 import Register from './components/pages/register.js';
 import AddRoomsAndDevices from './components/pages/addRoomsAndDevices.js';
+import ProtectedRoute from './components/helpers/protectedRouter.js';
 
-import 'primeicons/primeicons.css';
 import 'primereact/resources/themes/nova-light/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeflex/primeflex.css';
+import 'primeicons/primeicons.css'; 
+import 'font-awesome/css/font-awesome.min.css';
 
 import './App.css';
 
 function App() {
   return (
     <div className="App">
-      <Router> 
+      <Router>
         <Switch>
           <Route exact path="/" component={Login} />
-          <Route exact path="/register" component={Register} />
-          <Route exact path="/add" component={AddRoomsAndDevices} />
+          <Route exact path="/register/" component={Register} />
+          <ProtectedRoute exact path="/add/" component={AddRoomsAndDevices} />
+          {/* <Route exact path="/*" component={Wildcard} /> */}
         </Switch>
       </Router>
     </div>

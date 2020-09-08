@@ -1,0 +1,23 @@
+.p-dropdown {
+    min-width: 100%;
+}
+
+.country-item {
+    display: flex;
+    align-items: center;
+}
+
+.country-item img {
+    width: 20px; 
+    margin-right: 10px;
+}
+
+.drop-img {
+    width: 15px;height:15px;
+}
+
+
+
+body .p-button.p-button-rounded {
+    border-radius: 50% !important;
+}

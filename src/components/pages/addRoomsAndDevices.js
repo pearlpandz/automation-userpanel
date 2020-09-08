@@ -2,137 +2,97 @@ import React, { Component } from 'react';
 import './add-devices.css';
 import PopupForm from './../common/popupForm.js';
 import MyTable from './../common/mytable.js';
+import AppHeader from './../common/app-header.js';
 
 // PrimeNG Elements
 import { Button } from 'primereact/button';
 
+import axios from 'axios';
+
+import { Growl } from 'primereact/growl';
+
 class AddRoomsAndDevices extends Component {
 
+    componentDidMount() {
+        this.getRooms();
+    }
 
+    getRooms = async () => {
+        const res = await axios.get(`http://localhost:8000/rooms/listAll`, {
+            headers: {
+                authorization: `Bearer ${localStorage.getItem('auth_token')}`
+            }
+        });
+        this.setState({ rooms: res.data.data });
+    }
 
     constructor(props) {
         super(props);
         this.state = {
             isPopUpShowing: false,
-            rooms: [
-                {
-                    id: 1,
-                    name: 'Tube Light',
-                    uniqueId: 'TL0000001X'
-                },
-                {
-                    id: 2,
-                    name: 'Fan',
-                    uniqueId: 'TL0000002X'
-                },
-                {
-                    id: 3,
-                    name: 'Switch Box',
-                    uniqueId: 'TL0000002X'
-                },
-                {
-                    id: 4,
-                    name: 'Tube Light',
-                    uniqueId: 'TL0000001X'
-                },
-                {
-                    id: 5,
-                    name: 'Fan',
-                    uniqueId: 'TL0000002X'
-                },
-                {
-                    id: 6,
-                    name: 'Switch Box',
-                    uniqueId: 'TL0000002X'
-                },
-                {
-                    id: 7,
-                    name: 'Tube Light',
-                    uniqueId: 'TL0000001X'
-                },
-                {
-                    id: 8,
-                    name: 'Fan',
-                    uniqueId: 'TL0000002X'
-                },
-                {
-                    id: 9,
-                    name: 'Switch Box',
-                    uniqueId: 'TL0000002X'
-                },
-                {
-                    id: 10,
-                    name: 'Tube Light',
-                    uniqueId: 'TL0000001X'
-                },
-                {
-                    id: 11,
-                    name: 'Fan',
-                    uniqueId: 'TL0000002X'
-                },
-                {
-                    id: 12,
-                    name: 'Switch Box',
-                    uniqueId: 'TL0000002X'
-                },
-                {
-                    id: 13,
-                    name: 'Tube Light',
-                    uniqueId: 'TL0000001X'
-                },
-                {
-                    id: 14,
-                    name: 'Fan',
-                    uniqueId: 'TL0000002X'
-                },
-                {
-                    id: 15,
-                    name: 'Switch Box',
-                    uniqueId: 'TL0000002X'
-                },
-                {
-                    id: 16,
-                    name: 'Tube Light',
-                    uniqueId: 'TL0000001X'
-                },
-                {
-                    id: 17,
-                    name: 'Fan',
-                    uniqueId: 'TL0000002X'
-                },
-                {
-                    id: 18,
-                    name: 'Switch Box',
-                    uniqueId: 'TL0000002X'
-                },
-            ]
+            rooms: []
         }
+        this.columns = [
+            { field: 'boxId', header: 'Room ID' },
+            { field: 'name', header: 'Room Name' },
+        ];
+
+        this.showSuccess = this.showSuccess.bind(this);
+        this.showError = this.showError.bind(this);
     }
 
     showAddRoom = () => {
-        this.setState({ isPopUpShowing: true })
+        this.setState({ isPopUpShowing: true, display: true })
     }
 
-    submitAddRoom = (values) => {
-        this.state.rooms.push(values);
-        console.log(this.state.rooms)
+    submitAddRoom = async (values) => {
+        await axios.post(`http://localhost:8000/room/add`, values, {
+            headers: {
+                authorization: `Bearer ${localStorage.getItem('auth_token')}`
+            }
+        }).then(() => {
+            this.getRooms();
+            this.showSuccess('Room successfully added!');
+        }).catch(error => {
+            this.showError(error.response.data.message);
+        })
     }
 
     close = (e) => {
-        this.setState({ isPopUpShowing: !e })
+        this.setState({ isPopUpShowing: !e, display: e })
+    }
+
+    showSuccess = (msg) => {
+        this.growl.show({
+            severity: 'success',
+            summary: 'Success Message',
+            detail: msg,
+            life: 3000
+        });
+    }
+
+    showError = (message) => {
+        this.growl.show({
+            severity: 'error',
+            summary: 'Error Message',
+            detail: message,
+            life: 3000
+        });
     }
 
 
     render() {
-        const { isPopUpShowing, rooms } = this.state;
+        const { isPopUpShowing, rooms, display } = this.state;
         return (
-            <div className="rooms-devices flex flex-30-70 height-100vh">
+            <div className="rooms-devices flex flex-30-70 height-100vh" >
                 <div className="left-img">
+                    <Growl ref={(el) => this.growl = el} />
                     <img src={require('./../../assets/images/add-devices.png')} alt="Add Devices" />
                 </div>
                 <div>
+                    <AppHeader name={localStorage.getItem('user_name')} />
                     {isPopUpShowing ?
-                        <PopupForm heading="Add Room" close={this.close} submit={this.submitAddRoom} />
+                        <PopupForm heading="Add Room" close={this.close} display={display} submit={this.submitAddRoom} />
                         :
                         <div className="room-list">
                             <div className="page-header">
@@ -140,7 +100,7 @@ class AddRoomsAndDevices extends Component {
                                 <Button label="Add Room" icon="pi pi-plus" onClick={this.showAddRoom} />
                             </div>
                             <div className="page-body">
-                                <MyTable data={rooms} dataKey="id" noOfRows={20} selection={false} expand={false} exportpdf={false}/>
+                                <MyTable data={rooms} columns={this.columns} dataKey="name" noOfRows={20} selection={false} expand={true} exportpdf={false} />
                             </div>
                         </div>
                     }

@@ -21,29 +21,26 @@ class MyTable extends Component {
 
     onSelectionChange = e => {
         this.setState({ selectedItems: e.value });
-        console.log(e.value); // send back to parent component this value
+        // console.log(e.value); // send back to parent component this value
     }
 
     rowExpansionTemplate(data) {
         return (
-            <div>
-                <ul>
-                    <li>{data.id}</li>
-                    <li>{data.name}</li>
-                    <li>{data.uniqueId}</li>
-                </ul>
+            <div style={{paddingLeft: 3 + 'em'}}> 
+                <h4>Deviecs</h4>
+                <ul>{data.devices.map((device, index) => {
+                    return <li key={index}>{device.name}</li>
+                })}</ul>
             </div>
         );
     };
 
     onRowToggle = (e) => {
         this.setState({ expandedRows: e.data })
-        console.log(e.data);
     }
 
     onRowReorder = (e) => {
         this.setState({ data: e.value })
-        console.log(e.value);
     }
 
     onExport() {
@@ -51,12 +48,8 @@ class MyTable extends Component {
     }
 
     render() {
-
-        const columns = [
-            { field: 'id', header: 'S.No' },
-            { field: 'name', header: 'Name' },
-            { field: 'uniqueId', header: 'Unique ID' },
-        ];
+        const { selectedItems, expandedRows } = this.state;
+        const { data, dataKey, noOfRows, selection, expand, exportpdf, columns } = this.props;
 
         const dynamicColumns = columns.map((col, i) => {
             return <Column key={col.field} field={col.field} header={col.header} sortable={true} filter={true} filterMatchMode="contains" />
@@ -64,8 +57,6 @@ class MyTable extends Component {
 
         const header = <div style={{ textAlign: 'left' }}><Button type="button" icon="pi pi-external-link" iconPos="left" label="CSV" onClick={this.onExport}></Button></div>;
 
-        const { selectedItems, expandedRows } = this.state;
-        const { data, dataKey, noOfRows, selection, expand, exportpdf } = this.props;
         return (
             <div className="datatable-doc-demo">
                 <DataTable

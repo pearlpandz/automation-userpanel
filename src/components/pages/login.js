@@ -3,6 +3,10 @@ import './../common/common.css';
 import './../pages/register.css';
 import { Link } from 'react-router-dom';
 
+import axios from 'axios';
+
+import { Growl } from 'primereact/growl';
+
 class Login extends Component {
     constructor(props) {
         super(props);
@@ -18,6 +22,13 @@ class Login extends Component {
                 password: ""
             }
         };
+
+        this.showSuccess = this.showSuccess.bind(this);
+        this.showError = this.showError.bind(this);
+    }
+
+    componentDidMount() {
+        this.props.location.error && this.showError(this.props.location.error);
     }
 
     validEmailRegex = RegExp(
@@ -44,11 +55,11 @@ class Login extends Component {
         switch (name) {
             case "email":
                 if (this.validEmailRegex.test(value)) {
-                    values.email = "";
-                    errors.email = "Email is not valid!";
-                } else {
                     values.email = value;
                     errors.email = ""
+                } else {
+                    values.email = "";
+                    errors.email = "Email is not valid!";
                 }
                 break;
             case "password":
@@ -73,10 +84,40 @@ class Login extends Component {
         });
     };
 
-    handleSubmit = event => {
+    showSuccess = (res) => {
+        this.growl.show({
+            severity: 'success',
+            summary: 'Success Message',
+            detail: 'Successfully Registered!',
+            life: 3000
+        });
+    }
+
+    showError = (message) => {
+        this.growl.show({
+            severity: 'error',
+            summary: 'Error Message',
+            detail: message,
+            life: 3000
+        });
+    }
+
+    handleSubmit = async (event) => {
         event.preventDefault();
-        // submit values
-        // console.log(this.state.values);
+        const value = this.state.values;
+        value.role = 'user';
+
+        await axios.post(`http://localhost:8000/login`, value).then(response => {
+            this.showSuccess(response);
+            localStorage.setItem('auth_token', response.data.token);
+            localStorage.setItem('user_id', response.data.data._id);
+            localStorage.setItem('user_name', response.data.data.name);
+            setTimeout(() => {
+                this.props.history.push('/add')
+            }, 1500);
+        }).catch(error => {
+            this.showError(error.response.data.message);
+        })
     };
 
     render() {
@@ -84,9 +125,10 @@ class Login extends Component {
         return (
             <div className="wrapper flex-box flex-50-50">
                 <div className="form-wrapper">
+                    <Growl ref={(el) => this.growl = el} />
                     <h2 className="page-title">Welcome Back <span>Please login to your account</span></h2>
                     <form onSubmit={this.handleSubmit} noValidate>
-                        <div className="email">
+                        <div className="email p-col-12 form-group">
                             <label htmlFor="email">Email</label>
                             <input
                                 type="email"
@@ -98,8 +140,8 @@ class Login extends Component {
                                 <span className="error">{errors.email}</span>
                             )}
                         </div>
-                        <div className="password">
-                            <label htmlFor="password">Password</label>
+                        <div className="password p-col-12 form-group">
+                            <label htmlFor="password">Password <small>(must be eight characters in length.)</small></label>
                             <input
                                 type="password"
                                 name="password"
@@ -110,11 +152,8 @@ class Login extends Component {
                                 <span className="error">{errors.password}</span>
                             )}
                         </div>
-                        <div className="info">
-                            <small>Password must be eight characters in length.</small>
-                        </div>
-                        <div className="submit">
-                            <button disabled={!formValid}>Create</button>
+                        <div className="submit p-col-12">
+                            <button className="mybtn" disabled={!formValid}>Login</button>
                         </div>
                     </form>
                     <h2 className="page-title text-center"><span><Link to="/register">Don't have an account? Register here!</Link></span></h2>
