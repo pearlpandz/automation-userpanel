@@ -241,7 +241,7 @@ class PopupForm extends Component {
                         })}
                     </div>
                     <div className="form-group flex justify-end">
-                        <Button type="button" label="No" className="p-button-text margin-right-10" />
+                        <Button type="button" onClick={this.close} label="No" className="p-button-text margin-right-10" />
                         <Button type="submit" disabled={!this.state.formValid} label="Yes" autoFocus />
                     </div>
                 </Dialog>
