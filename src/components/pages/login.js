@@ -116,7 +116,7 @@ class Login extends Component {
             localStorage.setItem('user_name', response.data.data.name);
             setTimeout(() => {
                 this.props.history.push('/add')
-            }, 1500);
+            }, 2000);
         }).catch(error => {
             console.log(error.response)
             // this.showError(error.response.data.message);

@@ -128,7 +128,7 @@ class Register extends Component {
             this.showSuccess(response);
             setTimeout(() => {
                 this.props.history.push('/');
-            }, 1000);
+            }, 2000);
         }).catch(error => {
             this.showError(error.response);
         })
