@@ -7,7 +7,6 @@
 }
 
 .justify-end {
-
     justify-content: flex-end;
 }
 
@@ -17,50 +16,71 @@
     justify-content: center;
 }
 
-.flex-50-50 > div {
+.flex-50-50>div {
     flex-basis: 50%;
     display: flex;
     flex-direction: column;
     text-align: left;
 }
 
-.flex-30-70 > div:first-child {flex-basis: 30%;}
-.flex-30-70 > div:last-child {flex-basis: 70%;}
+.flex-30-70>div:first-child {
+    flex-basis: 30%;
+}
+
+.flex-30-70>div:last-child {
+    flex-basis: 70%;
+}
 
 .height-100vh {
     height: 100vh;
 }
 
-img {width: 100%}
-.margin-zero {margin: 0 !important;}
-.margin-right-10 {margin-right: 10px !important;}
-.padding-zero {padding: 0 !important;}
-.padding-right-zero {padding-right: 0 !important;}
+img {
+    width: 100%
+}
 
-.text-center
+.margin-zero {
+    margin: 0 !important;
+}
 
-.error {
+.margin-right-10 {
+    margin-right: 10px !important;
+}
+
+.padding-zero {
+    padding: 0 !important;
+}
+
+.padding-right-zero {
+    padding-right: 0 !important;
+}
+
+.text-center .error {
     font-size: 13px;
     color: red;
     margin-top: 5px;
 }
 
 /* page title <h2> tag */
+
 .page-title span {
     display: block;
     font-size: 12px;
     color: #444444;
-    font-weight: 500; 
+    font-weight: 500;
 }
 
 /* form */
-form > div { 
+
+form>div {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
 }
 
-form > div.password {margin: 0;}
+form>div.password {
+    margin: 0;
+}
 
 form input {
     height: 35px;
@@ -81,16 +101,19 @@ form input {
 }
 
 form button[disabled] {
-    background: #cecece;
-    cursor: not-allowed;
+    background: #8a8a8a;
+    cursor: not-allowed !important;
+    color: #000;
+    border: 0;
 }
 
-.mybtn.rounded { 
+.mybtn.rounded {
     width: 30px;
     height: 30px;
     border-radius: 50%;
 }
-form .form-group > label {
+
+form .form-group>label {
     margin-bottom: 7px;
     display: inline-block;
     width: 100%;
@@ -101,12 +124,12 @@ form label, form input {
     color: #444444;
 }
 
-form > div:last-child {
+form>div:last-child {
     margin-bottom: 0;
 }
 
-
 /* alignment */
+
 .text-right {
     text-align: right;
 }
@@ -120,6 +143,7 @@ form > div:last-child {
 }
 
 /* modal */
+
 .modal {
     position: fixed;
     display: flex;
@@ -175,23 +199,39 @@ form > div:last-child {
 }
 
 /* table */
-table{width: 100%;
-text-align: left;}
 
- 
+table {
+    width: 100%;
+    text-align: left;
+}
+
 .p-grid {
     width: 100%;
 }
 
-
 /* taost css */
+
 .toast-demo button {
     min-width: 10rem;
     margin-right: .5rem;
 }
 
+.popup-btns {
+    display: flex;
+    align-content: center;
+    justify-content: flex-end;
+    flex-direction: row;
+}
+
+.popup-btns-center {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    flex-direction: row;
+}
+
 @media screen and (max-width: 960px) {
-    .toast-demo  button {
+    .toast-demo button {
         width: 100%;
         margin-bottom: .5rem;
     }

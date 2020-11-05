@@ -1,26 +1,35 @@
 header {
-    background-color: #2d4a8f;
-    display: inline-block;
-    width: 100%;
-    padding: 0 20px;
-  }
+  background-color: #2d4a8f;
+  display: flex;
+  width: 100%;
+  padding: 0 20px;
+  align-items: center;
+  justify-content: space-between;
+  position: fixed;
+z-index: 1;
+}
 
-  header ul {
-    margin: 0;
-    text-align: right;
-  }
+header ul {
+  margin: 0;
+  text-align: right;
+}
 
-  header ul li {
-    display: inline-block;
-    text-align: left;
-    margin-left: 20px;
-  }
+header ul li {
+  display: inline-block;
+  text-align: left;
+  margin-left: 20px;
+}
 
-  header ul li p {
-    color: #ffffff;
-  }
+header ul li p {
+  color: #ffffff;
+}
 
-  .logout-icon {
-    position: relative;
-    bottom: -3px;
-  }
+.logout-icon {
+  position: relative;
+  bottom: -3px;
+}
+
+body header a, body header a:hover {
+  color: #fff;
+  font-weight: bold;
+}

@@ -90,7 +90,7 @@ class Login extends Component {
         this.growl.show({
             severity: 'success',
             summary: 'Success Message',
-            detail: 'Successfully Registered!',
+            detail: 'Welcome Back!',
             life: 3000
         });
     }
@@ -112,10 +112,10 @@ class Login extends Component {
         await axios.post(`${BASEURL}/login`, value).then(response => {
             this.showSuccess(response);
             localStorage.setItem('auth_token', response.data.token);
-            localStorage.setItem('user_id', response.data.data._id);
+            localStorage.setItem('user_id', response.data.data.id);
             localStorage.setItem('user_name', response.data.data.name);
             setTimeout(() => {
-                this.props.history.push('/add')
+                this.props.history.push('/dashboard')
             }, 2000);
         }).catch(error => {
             console.log(error.response)

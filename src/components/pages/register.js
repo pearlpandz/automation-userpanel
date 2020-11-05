@@ -125,7 +125,7 @@ class Register extends Component {
         value.role = 'user';
 
         await axios.post(`${BASEURL}/signup`, value).then(response => {
-            this.showSuccess(response);
+            this.showSuccess(response.data);
             setTimeout(() => {
                 this.props.history.push('/');
             }, 2000);

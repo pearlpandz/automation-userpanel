@@ -4,6 +4,8 @@ import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { Button } from 'primereact/button';
 
+import './mytable.css';
+
 class MyTable extends Component {
 
     constructor(props) {
@@ -12,7 +14,9 @@ class MyTable extends Component {
             selectedItems: [],
             expandedRows: []
         };
+
         this.onExport = this.onExport.bind(this);
+        this.actionBodyTemplate = this.actionBodyTemplate.bind(this);
     }
 
     componentDidMount() {
@@ -26,7 +30,7 @@ class MyTable extends Component {
 
     rowExpansionTemplate(data) {
         return (
-            <div style={{paddingLeft: 3 + 'em'}}> 
+            <div style={{ paddingLeft: 3 + 'em' }}>
                 <h4>Deviecs</h4>
                 <ul>{data.devices.map((device, index) => {
                     return <li key={index}>{device.name}</li>
@@ -47,13 +51,28 @@ class MyTable extends Component {
         this.dt.exportCSV();
     }
 
+    actionBodyTemplate(rowData) {
+        return (
+            <>
+                <Button icon="pi pi-pencil" className="p-button-rounded p-button-text p-button-transparent" tooltip="Edit" tooltipOptions={{ position: 'bottom' }} />
+                <Button icon="pi pi-trash" className="p-button-rounded p-button-text p-button-transparent" tooltip="Delete" tooltipOptions={{ position: 'bottom' }} />
+                <Button icon="pi pi-plus" className="p-button-rounded p-button-text p-button-transparent" tooltip="Add Devices" tooltipOptions={{ position: 'bottom' }} />
+            </>
+        );
+    }
+
     render() {
         const { selectedItems, expandedRows } = this.state;
         const { data, dataKey, noOfRows, selection, expand, exportpdf, columns } = this.props;
+        // console.log(data);
 
         const dynamicColumns = columns.map((col, i) => {
             return <Column key={col.field} field={col.field} header={col.header} sortable={true} filter={true} filterMatchMode="contains" />
         });
+
+        const addDevice = () => {
+            alert('will add device into this room');
+        }
 
         const header = <div style={{ textAlign: 'left' }}><Button type="button" icon="pi pi-external-link" iconPos="left" label="CSV" onClick={this.onExport}></Button></div>;
 
@@ -92,6 +111,7 @@ class MyTable extends Component {
                     {selection && <Column selectionMode="multiple" style={{ width: '3em' }} />}
                     {expand && <Column expander={true} style={{ width: '3em' }} />}
                     {dynamicColumns}
+                    <Column body={this.actionBodyTemplate} header='Actions'></Column>
                 </DataTable>
             </div >
         );

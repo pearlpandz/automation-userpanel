@@ -1,0 +1,19 @@
+.p-datatable .p-sortable-column-icon {
+    float: right;
+}
+
+body .p-datatable .p-datatable-thead > tr > th {
+    text-align: left !important;
+}
+
+.p-button.p-button-transparent {
+    color: #444444 !important;
+    background: transparent !important;
+    border: transparent !important;
+  }
+ 
+  .p-button.p-button-transparent:hover {
+    color: #007ad9 !important;
+    background: transparent !important;
+    border: transparent !important;
+  }

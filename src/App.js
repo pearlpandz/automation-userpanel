@@ -3,7 +3,7 @@ import { Switch, Route, BrowserRouter as Router } from 'react-router-dom';
 
 import Login from './components/pages/login.js';
 import Register from './components/pages/register.js';
-import AddRoomsAndDevices from './components/pages/addRoomsAndDevices.js';
+import Dashboard from './components/pages/dashboard.js';
 import ProtectedRoute from './components/helpers/protectedRouter.js';
 
 import 'primereact/resources/themes/nova-light/theme.css';
@@ -21,7 +21,7 @@ function App() {
         <Switch>
           <Route exact path="/" component={Login} />
           <Route exact path="/register/" component={Register} />
-          <ProtectedRoute exact path="/add/" component={AddRoomsAndDevices} />
+          <ProtectedRoute exact path="/dashboard/" component={Dashboard} />
           {/* <Route exact path="/*" component={Wildcard} /> */}
         </Switch>
       </Router>

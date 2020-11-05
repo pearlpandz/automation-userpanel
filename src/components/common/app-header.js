@@ -10,6 +10,7 @@ const AppHeader = (props) => {
 
     return (
         <header>
+            <a href="/dashboard">IOT Automation</a>
             <ul>
                 <li>
                     <p>{props.name ? props.name : 'Anonymous User'}</p>

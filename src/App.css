@@ -1,3 +1,10 @@
+*:focus {
+  box-sizing: border-box;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+
 .App {
   text-align: center;
 }
@@ -49,4 +56,8 @@
 
 .pi-sort-amount-down:before {
   content: "\e913";
+}
+
+.pointer {
+  cursor: pointer;
 }
