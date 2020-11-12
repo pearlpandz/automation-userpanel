@@ -94,11 +94,13 @@ class Dashboard extends Component {
             device_values: {
                 id: 0,
                 name: "",
-                baseDeviceId: ""
+                baseDeviceId: "",
+                switchNo: ""
             },
             device_errors: {
                 name: "",
-                baseDeviceId: ""
+                baseDeviceId: "",
+                switchNo: ""
             },
             device_formValid: false,
             device_selectedDevice: null
@@ -359,11 +361,13 @@ class Dashboard extends Component {
             device_values: {
                 id: 0,
                 name: "",
-                baseDeviceId: ""
+                baseDeviceId: "",
+                switchNo: ""
             },
             device_errors: {
                 name: "",
-                baseDeviceId: ""
+                baseDeviceId: "",
+                switchNo: ""
             },
             device_formValid: false,
             device_action: '',
@@ -377,7 +381,7 @@ class Dashboard extends Component {
     deviceOptionTemplate(option) {
         return (
             <div className="country-item" key={option.value}>
-                <img className="drop-img" alt={option.label} src={option.url} />
+                <img className="drop-img" alt={option.label} src={BASEURL + option.url} />
                 <div>{option.label}</div>
             </div>
         );
@@ -388,7 +392,7 @@ class Dashboard extends Component {
             console.log(option)
             return (
                 <div className="country-item country-item-value">
-                    {/* <img alt={option.label} src={option.url} /> */}
+                    <img alt={option.label} src={BASEURL + option.url} />
                     <div>{option.label}</div>
                 </div>
             );
@@ -426,6 +430,15 @@ class Dashboard extends Component {
                     errors.baseDeviceId = "Device is required!";
                 }
                 break;
+            case "switchNo":
+                if (value.length > 0) {
+                    errors.switchNo = "";
+                    values.switchNo = value;
+                } else {
+                    values.switchNo = "";
+                    errors.switchNo = "Switch No is required!";
+                }
+                break;
             default:
                 break;
         }
@@ -443,7 +456,8 @@ class Dashboard extends Component {
         if (this.state.device_action === 'edit') {
             const values = {
                 name: this.state.device_values.name,
-                baseDeviceId: this.state.device_values.baseDeviceId
+                baseDeviceId: this.state.device_values.baseDeviceId,
+                switchNo: this.state.device_values.switchNo
             };
 
             await axios.put(`${BASEURL}/device/${this.state.device_values.id}`, values, {
@@ -461,7 +475,8 @@ class Dashboard extends Component {
             const values = {
                 name: this.state.device_values.name,
                 baseDeviceId: this.state.device_values.baseDeviceId,
-                roomId: this.state.activeId
+                roomId: this.state.activeId,
+                switchNo: this.state.device_values.switchNo
             };
 
             await axios.post(`${BASEURL}/device`, values, {
@@ -491,11 +506,13 @@ class Dashboard extends Component {
             device_values: {
                 id: device.id,
                 name: device.surname,
-                baseDeviceId: device.refId
+                baseDeviceId: device.refId,
+                switchNo: device.switchNo
             },
             device_errors: {
                 name: "",
-                baseDeviceId: ""
+                baseDeviceId: "",
+                switchNo: ""
             },
             device_formValid: this.validateForm(device),
             device_selectedDevice: device.refId,
@@ -609,7 +626,7 @@ class Dashboard extends Component {
                 </Dialog>
 
                 {/* Device Add/Edit Popup */}
-                <Dialog header={this.state.device_action + " Device"} visible={this.state.device_display} style={{ width: '35vw' }} onHide={() => this.onHideRoomPopup('device_display')}>
+                <Dialog header={this.state.device_action + " Device"} visible={this.state.device_display} style={{ width: '35vw' }} onHide={() => this.onHideDevicePopup('device_display')}>
                     <form onSubmit={this.handleDeviceSubmit} noValidate>
                         <div className="name p-col-12 form-group">
                             <label htmlFor="name">Name</label>
@@ -618,6 +635,20 @@ class Dashboard extends Component {
                                 type="text"
                                 name="name"
                                 value={this.state.device_values.name}
+                                onChange={this.handleDeviceChange}
+                                noValidate
+                            />
+                            {
+                                this.state.device_errors.name.length > 0 && (
+                                    <span className="error">{this.state.device_errors.name}</span>
+                                )}
+                        </div>
+                        <div className="switchNo p-col-12 form-group">
+                            <label htmlFor="switchNo">Swich No</label>
+                            <input
+                                type="text"
+                                name="switchNo"
+                                value={this.state.device_values.switchNo}
                                 onChange={this.handleDeviceChange}
                                 noValidate
                             />
