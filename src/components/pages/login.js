@@ -94,11 +94,11 @@ class Login extends Component {
         });
     }
 
-    showError = (message) => {
+    showError = (error) => {
         this.growl.show({
             severity: 'error',
-            summary: 'Error Message',
-            detail: message,
+            summary: error.statusText,
+            detail: error.data.message,
             life: 3000
         });
     }
@@ -117,8 +117,7 @@ class Login extends Component {
                 this.props.history.push('/dashboard')
             }, 2000);
         }).catch(error => {
-            console.log(error.response)
-            // this.showError(error.response.data.message);
+            this.showError(error.response);
         })
     };
 
