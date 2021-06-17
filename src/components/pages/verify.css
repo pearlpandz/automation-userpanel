@@ -13,7 +13,7 @@
     color: #4caf50;
 }
 
-.verification a {
+.verification a, .verification a:hover {
     padding: 10px 25px;
     background: #007ad9;
     color: #fff;

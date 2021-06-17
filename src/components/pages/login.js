@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import './../common/common.css';
 import './../pages/register.css';
-import { Link } from 'react-router-dom';
 
 import axios from 'axios';
 
@@ -159,7 +158,6 @@ class Login extends Component {
                             <button className="mybtn" disabled={!formValid}>Login</button>
                         </div>
                     </form>
-                    <h2 className="page-title text-center"><span><Link to="/register">Don't have an account? Register here!</Link></span></h2>
                 </div>
                 <div className="split-screen">
                     <img src={require('./../../assets/images/splash.png')} alt="Split Screen" />
