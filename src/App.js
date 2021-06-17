@@ -1,6 +1,7 @@
 import React from 'react';
 import { Switch, Route, BrowserRouter as Router } from 'react-router-dom';
 
+import Verify from './components/pages/verify.js';
 import Login from './components/pages/login.js';
 import Register from './components/pages/register.js';
 import Dashboard from './components/pages/dashboard.js';
@@ -20,6 +21,7 @@ function App() {
       <Router>
         <Switch>
           <Route exact path="/" component={Login} />
+          <Route exact path="/verify" component={Verify} />
           <Route exact path="/register/" component={Register} />
           <ProtectedRoute exact path="/dashboard/" component={Dashboard} />
           {/* <Route exact path="/*" component={Wildcard} /> */}
