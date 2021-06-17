@@ -70,6 +70,13 @@ class Dashboard extends Component {
             rooms: [],
             devices: [],
             baseDevices: [],
+            modules: [{
+                value: 1,
+                label: 'Module 1'
+            }, {
+                value: 2,
+                label: 'Module 2'
+            }],
             activeId: 0,
 
             // Room
@@ -103,7 +110,8 @@ class Dashboard extends Component {
                 switchNo: ""
             },
             device_formValid: false,
-            device_selectedDevice: null
+            device_selectedDevice: null,
+            selectedModule: null
 
         }
 
@@ -248,7 +256,7 @@ class Dashboard extends Component {
                 }
                 break;
             case "boxId":
-                if (value.length > 0) {
+                if (value) {
                     errors.boxId = "";
                     values.boxId = value;
                 } else {
@@ -351,6 +359,12 @@ class Dashboard extends Component {
     onDeviceChange = (event) => {
         this.setState({
             device_selectedDevice: event.value
+        })
+    }
+
+    onModuleChange = (event) => {
+        this.setState({
+            selectedModule: event.value
         })
     }
 
@@ -548,7 +562,7 @@ class Dashboard extends Component {
 
 
     render() {
-        const { rooms, devices, baseDevices, device_selectedDevice, device_delete_display } = this.state;
+        const { rooms, devices, baseDevices, device_selectedDevice, device_delete_display, modules } = this.state;
 
         return (
             <div className="dashboard" >
@@ -594,14 +608,9 @@ class Dashboard extends Component {
                                 )}
                         </div>
                         <div className="boxId p-col-12 form-group">
-                            <label htmlFor="boxIdboxId">BoxId</label>
-                            <input
-                                type="text"
-                                name="boxId"
-                                value={this.state.room_values.boxId}
-                                onChange={this.handleRoomChange}
-                                noValidate
-                            />
+                            <label htmlFor="boxIdboxId">Module</label>
+                            <Dropdown dataKey="value" appendTo={document.body} style={{ width: '100%' }} name="boxId" options={modules} onChange={(event) => { this.handleRoomChange(event) }} optionLabel="label" filter showClear filterBy="label" placeholder="Select a module"
+                                value={this.state.room_values.boxId} />
                             {this.state.room_errors.boxId.length > 0 && (
                                 <span className="error">{this.state.room_errors.boxId}</span>
                             )}
