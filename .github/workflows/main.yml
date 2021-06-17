@@ -38,5 +38,5 @@ jobs:
           PORT: ${{ secrets.SSH_PORT }}
           PASSPHRASE: ${{ secrets.SSH_PASSPHRASE }}
         with:
-          source: "./dist"
+          source: "./build/*"
           target: "/var/www/html/automation_user/"
